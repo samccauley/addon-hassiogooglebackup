@@ -28,11 +28,11 @@ Before using the [`doBackup` Service](Calling-the-`doBackup`-Service), you need 
 2. Open the Web User Interface for this add-on using the `Open Web UI` link on the add-on details page. Alternatively, you can open your own browser window and navigate to: `https://<Your_Hassio_Host>:<Host_Port>/gb`, substituting your hass[]().io host name and the Host Port number you've configured for this add-on.
 3. Following the instructions in the Web User Interface, do the following:
     1. Click on the `AUTHORIZE` button to launch a separate browser tab to the Google Authorization Server.
-    2. If required, login to Google.
-    3. Google will tell you what application (this add-on) is requesting authority and what scope of authority is being requested. Click Google's `Authorize` button.
-    4. Google will show you an `Authorization Code`. Copy this application code so that you can paste into this add-on's Web User Interface (next step).
+    2. If required, login to Google and confirm your Google user ID.
+    3. Google will then tell you what application (this add-on) is requesting authority and what scope of authority is being requested. Click Google's `Allow` button.
+    4. Google will show you an authorization code. Copy this code so that you can paste into this add-on's Web User Interface (next step).
     5. Return to the browser tab containing this add-on's Web User Interface and paste the copied value (from the previous step) into the provided `Authorization Code' field.
-    6. Click the `INGEST AUTHORIZATION CODE` button.
+    6. Click the `INGEST CODE` button.
     7. You should be presented with a message indicating **authorization confirmed**.
 4. This completes the authorization step! You're now ready to begin using the `doBackup` Service as described below.
 ## Calling the `doBackup` Service
