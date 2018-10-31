@@ -1,4 +1,5 @@
 # Backup to Google Drive
+![Backup to Google Drive Logo](logo.png "Backup to Google Drive Logo")
 ## Overview
 This add-on will upload files from your hass[]().io backup folder (typically .tar files created by the hass[]().io SnapShot feature) to your Google Drive. A few key things to note:
 1. This add-on asks only for permission to add new files to your Google Drive, and to manage the files that it adds. It will not have permission to view any files on your Google Drive that it did not create itself. This is to protect the contents of your Google Drive.
@@ -61,3 +62,4 @@ The `doBackup` service will respond with JSON reminding you of the configuration
     "backedUpCount": 3
 }
 ```
+Unexpected errors will return an HTTP Status Code of some value other than the normal 200 Success Code.
