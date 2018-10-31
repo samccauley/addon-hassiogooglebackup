@@ -1,0 +1,14 @@
+<html><head><title>Backup Complete</title></head>
+<body>
+    <h1>Backup Complete</h1>
+    {% if 'error_message' in request.GET %}
+        <p>{{ request.GET.error_message }}</p>
+    {% else %}
+        <p>{{ request.GET.fileCount }} files were found matching this pattern: {{ request.GET.fromPattern }}</p>
+        {% if request.GET.fileCount != '0' %}
+            <p>{{ request.GET.alreadyCount }} of them had already been backed up.</p>
+            <p>{{ request.GET.backedUpCount }} of them were just now backed up to this Google Drive folder ID: {{ request.GET.backupDirID }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

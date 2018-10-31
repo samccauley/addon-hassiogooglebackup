@@ -1,0 +1,21 @@
+{
+    "name": "Backup Hassio to Google Drive",
+    "version": "1",
+    "slug": "googlebackup",
+    "description": "Backup hass.io snapshots to Google Drive.",
+    "arch": ["armhf"],
+    "startup": "before",
+    "webui": "https://[HOST]:[PORT:8000]/gb",
+    "boot": "auto",
+    "map": ["backup"],
+    "options": {
+      "fromPattern" : "/backup/*.tar",
+      "backupDirID" : "1CvDPzNz1v-OuOWqKq5kKoKQt060hhK8U"},
+    "schema": {
+      "fromPattern" : "str",
+      "backupDirID" : "str"},
+    "ports": {
+      "8000/tcp": 8055
+    },
+    "image": "samccauley/{arch}-googlebackup"
+}

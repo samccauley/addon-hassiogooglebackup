@@ -1,0 +1,20 @@
+<html><head><title>Request to Grant Authorization</title></head>
+<body>
+    <h1>Request to Grant Authorization</h1>
+    <p>Click on the AUTHORIZE button below to open a new browser in which you may grant this add-on permission to write files to your Google Drive.</p>
+    <p>After giving your authorization, you will be prompted to copy your authorization code. You will need to return to this browser tab and paste
+       that code into the field provided below and then click on the INGEST CODE button.</p>
+    <form action="{% url 'gb:getAuth' %}" method="POST" target="_blank">
+    {% csrf_token %}
+        <input type="submit" value="AUTHORIZE">
+    </form>
+    <p>-------------------------------------</p>
+    <h2>Authorization Code</h2>
+    <p>Once you get the authorization code, paste it here and click the INGEST CODE button.</p>
+    <form action="{% url 'gb:authConfirmed' %}" method="POST">
+        {% csrf_token %}
+            <input type="text" width="40" id="authorizationCode" name="authorizationCode">
+            <input type="submit" value="INGEST CODE">
+        </form>
+    </body>
+</html>
