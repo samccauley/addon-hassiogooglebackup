@@ -6,10 +6,13 @@
     <h1>Backup Instructions</h1>
     <p>The backup of your hass.io snapshots is performed by executing a REST service hosted by
         this add-on at the host port configured in the details for this add-on. There are no 
-        arguments needed to passed to the service request. Everything needed is configured in 
-        the add-on configs. The address for this service is in the form: https://hassio.local:[HOST_PORT]/gb/doBackup 
-        where [HOST_PORT] is the host port number you configured for this add-on (the same port number this
-        page is served from).</p>
-    <p>Example: https://hassio.local:8055/gb/doBackup</p>
+        arguments needed to be passed to the service request. Everything needed is configured in 
+        the add-on configs. You simply need to send a GET operation to this address:</p>
+    <p><a href="{% url 'gb:doBackup' %}">{% url 'gb:doBackup' %}</a></p>
+    <p>You can use <a href="https://www.home-assistant.io/components/rest_command/">Home Assistant's RESTful Command</a>
+        to integrate this add-on's REST service into your own scripts
+        and automations. You may want to use a REST testing tool
+        like <a href="https://www.getpostman.com/">Postman</a> to perform
+        initial testing.</p>
 </body>
 </html>
