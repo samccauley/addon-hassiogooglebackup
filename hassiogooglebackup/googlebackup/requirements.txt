@@ -19,7 +19,7 @@ pyasn1==0.4.4
 pyasn1-modules==0.2.2
 pylint==2.1.1
 pytz==2018.5
-requests==2.19.1
+requests==2.20.0
 requests-oauthlib==1.0.0
 rsa==4.0
 six==1.11.0
