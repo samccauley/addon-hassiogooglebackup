@@ -20,7 +20,7 @@ RUN apk add --no-cache \
 COPY googlebackup /googlebackup
 
 RUN pip install -r googlebackup/requirements.txt \
-  && cd googlebackup
+  && cd googlebackup \
   && python manage.py migrate
 
 # Copy data for add-on
