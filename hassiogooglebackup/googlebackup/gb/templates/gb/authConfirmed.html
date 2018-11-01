@@ -8,7 +8,7 @@
         this add-on at the host port configured in the details for this add-on. There are no 
         arguments needed to be passed to the service request. Everything needed is configured in 
         the add-on configs. You simply need to send a GET operation to this address:</p>
-    <p><a href="{% url 'gb:doBackup' %}">{% url 'gb:doBackup' %}</a></p>
+    <p><a href="{{ request.scheme }}://{{ request.get_host }}{% url 'gb:doBackup' %}">{{ request.scheme }}://{{ request.get_host }}{% url 'gb:doBackup' %}</a></p>
     <p>You can use <a href="https://www.home-assistant.io/components/rest_command/">Home Assistant's RESTful Command</a>
         to integrate this add-on's REST service into your own scripts
         and automations. You may want to use a REST testing tool

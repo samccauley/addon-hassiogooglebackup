@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DATA_PATH = "/data"
+
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
@@ -26,7 +28,7 @@ CSRF_COOKIE_SECURE = False
 SECRET_KEY = '70mm#takprrt)6$=k(2h!dikc0d6qwo5#czl(+!oy$=xdv^2=l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'hassio.local']
 
@@ -122,3 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+try:
+  from .local_settings import *
+except ImportError:
+  print("No local_settings to import")

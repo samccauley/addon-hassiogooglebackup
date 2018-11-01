@@ -5,6 +5,8 @@ from oauth2client.client import GoogleCredentials
 from googleapiclient.discovery import build
 from httplib2 import Http
 
+from django.conf import settings
+import os
 import json
 import glob
 import ntpath
@@ -12,12 +14,9 @@ import pprint
 
 OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file'
 
-# DATA_PATH = "/data/"
-DATA_PATH = "c:/users/scott/GOOGLE~1/hassiogooglebackup/"
-
-CLIENT_SECRET = "client_secret.json"
-TOKEN = DATA_PATH + "token.json"
-CONFIG_FILE = DATA_PATH + "options.json"
+CLIENT_SECRET = os.path.join(settings.BASE_DIR, "client_secret.json")
+TOKEN = os.path.join(settings.DATA_PATH, "token.json")
+CONFIG_FILE = os.path.join(settings.DATA_PATH, "options.json")
 
 
 def getOptions():
