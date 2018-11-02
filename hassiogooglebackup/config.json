@@ -3,14 +3,20 @@
     "version": "1",
     "slug": "googlebackup",
     "description": "Backup hass.io snapshots to Google Drive.",
-    "arch": ["armhf"],
-    "startup": "before",
-    "webui": "https://[HOST]:[PORT:8000]/gb",
+    "arch": [
+      "aarch64",
+      "amd64",
+      "armhf",
+      "i386"
+    ],
+    "url": "https://github.com/samccauley/addon-hassiogooglebackup#readme",
+    "startup": "services",
+    "webui": "http://[HOST]:[PORT:8000]/gb",
     "boot": "auto",
     "map": ["backup"],
     "options": {
       "fromPattern" : "/backup/*.tar",
-      "backupDirID" : "1CvDPzNz1v-OuOWqKq5kKoKQt060hhK8U"},
+      "backupDirID" : "Some_Google_Drive_Unique_Opaque_Folder_ID"},
     "schema": {
       "fromPattern" : "str",
       "backupDirID" : "str"},
