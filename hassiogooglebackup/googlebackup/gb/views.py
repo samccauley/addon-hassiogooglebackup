@@ -12,6 +12,7 @@ from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveT
 def index(request):
     return render(request, 'gb/index.html')
 
+@csrf_exempt
 def getAuth(request):
 
     authorization_url, state = requestAuthorization()
