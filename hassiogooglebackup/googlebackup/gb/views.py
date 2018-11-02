@@ -23,6 +23,7 @@ def getAuth(request):
 
     return HttpResponseRedirect(authorization_url)
 
+@csrf_exempt
 def authConfirmed(request):
 
     saved_state = request.session['state']
