@@ -25,6 +25,8 @@ SECRET_KEY = '70mm#takprrt)6$=k(2h!dikc0d6qwo5#czl(+!oy$=xdv^2=l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'hassio.local']
 

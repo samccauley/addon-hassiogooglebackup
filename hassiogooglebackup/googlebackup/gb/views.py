@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 import pprint
 import traceback
@@ -13,7 +12,6 @@ from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveT
 def index(request):
     return render(request, 'gb/index.html')
 
-@csrf_exempt
 def getAuth(request):
 
     authorization_url, state = requestAuthorization()
@@ -23,7 +21,6 @@ def getAuth(request):
 
     return HttpResponseRedirect(authorization_url)
 
-@csrf_exempt
 def authConfirmed(request):
 
     saved_state = request.session['state']
