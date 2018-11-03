@@ -28,7 +28,7 @@ DEBUG = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', 'hassio.local']
+ALLOWED_HOSTS = ['*', '[::1]']
 
 
 # Application definition
