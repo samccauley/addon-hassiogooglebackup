@@ -45,7 +45,7 @@ Backups are performed by calling the `doBackup` service exposed by this add-on. 
 
 The `doBackup` service does not require any arguments. It gets the information it needs from the [Configuration Options](#Configuration-Options) and from your having completed the [authorization process described above](#Authorizing-this-Add-On-to-Upload-to-Google-Drive).
 
-You call the service by simply performing a GET against this URI:
+You call the service by simply performing a GET against this URI (in fact, you can just click this link):
 ```
     http://<YOUR_HASSIO_HOST>:<HOST_PORT>/gb/doBackup
 ```
@@ -67,5 +67,16 @@ The `doBackup` service will respond with JSON reminding you of the configuration
 }
 ```
 Unexpected errors will return an HTTP Status Code of some value other than the normal 200 Success Code.
+
+### Integrating into Home Assistant
+You can easily integrate this add-on's REST service into Home Assistant using [Home Assistant's RESTful Command](https://www.home-assistant.io/components/rest_command/). You'll probably need to use `localhost` instead of `hassio.local` in this configuration. You'll also want to specify an adequate timeout value. Here's how I setup mine:
+```
+rest_command:
+  google_backup:
+    url: 'http://localhost:8055/gb/doBackup'
+    timeout: '300'
+```
+With the REST Command created, you'll see your Google Backup Service available as `rest_command.google_backup` in [Home Assistant's Services Development Tool](https://www.home-assistant.io/docs/tools/dev-tools/), and you'll also be able to call it as part of [Home Assistant Automations](https://www.home-assistant.io/components/automation/).
+
 
 [logo]: hassiogooglebackup/logo.png

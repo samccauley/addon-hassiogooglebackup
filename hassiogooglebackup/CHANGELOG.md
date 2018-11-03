@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Ability to delete older snapshots, preserving a given number of recent files.
 
+## [1.0.2] - 2018-11-03
+### Changed
+- Added instructions to README on how to create REST Service in Home Assistant.
+
+## [1.0.1] - 2018-11-03
+### Changed
+- Experimental update - ALLOWED_HOSTS - '*'
+
 ## [1.0.0] - 2018-11-02
 ### Added
 - Initial Release with basic ability to upload snapshots to Google Drive, avoiding duplication of files previously backed up.
