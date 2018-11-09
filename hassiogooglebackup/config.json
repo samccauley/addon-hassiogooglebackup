@@ -20,7 +20,7 @@
     "schema": {
       "fromPattern" : "str",
       "backupDirID" : "str",
-      "purge" : {"enabled" : "boolean", "preserve" : "int(0,)"}},
+      "purge" : {"enabled" : "bool", "preserve" : "int(0,)"}},
     "ports": {
       "8000/tcp": 8055
     },
