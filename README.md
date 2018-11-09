@@ -5,12 +5,14 @@ This add-on will upload files from your hass[]().io backup folder (typically .ta
 1. This add-on asks only for permission to add new files to your Google Drive, and to manage the files that it adds. It will not have permission to view any files on your Google Drive that it did not create itself. This is to protect the contents of your Google Drive.
 2. This add-on exposes a Web User Interface for obtaining your authorization to upload files to your Google Drive. Once that authorization is established, the Web User Interface is no longer needed - it exists only for this initial setup.
 3. Backups are performed by executing a REST service exposed on the same port as the Web User Interface. Find [more information on the service below](#Calling-the-`doBackup`-Service). You can use [Home Assistant's RESTful Command](https://www.home-assistant.io/components/rest_command/) to integrate this add-on's REST service into your own scripts and automations. You may want to use a REST testing tool like [Postman](https://www.getpostman.com/) to perform initial testing.
+4. Optionally, you may configure this add-on to purge older files from your hass[]().io backup folder.
 
 ## Configuration Options
 Example configuration:
 ```
 {"fromPattern" : "/backup/*.tar",
- "backupDirID" : "1CvPDzNz1v-OuOUqKq3jjoKQt020hKK7R"}
+ "backupDirID" : "1CvPDzNz1v-OuOUqKq3jjoKQt020hKK7R",
+ "purge" : {"enabled" : true, "preserve" : 3}}
 ```
 ### `fromPattern`
 Use this to identify the files on your hass[]().io host that you wish to backup.
@@ -23,6 +25,11 @@ Note that this add-on can only see files on your Google Drive that it created it
 This identifies the Google Drive folder in which you want to place your backed up files. Because this add-on does not have permission to browse any files or directories on your Google Drive that it does not itself create, you cannot simply provide the folder name. You must instead provide Google Drive's unique opaque ID of the folder. Google Drive doesn't make it easy to get this value. But, here's how you can get it:
 1. In your favorite web browser, navigate to the Google Drive folder to which you plan to upload your files (create a new folder in Google Drive if you wish). Be sure that you have the perferred folder open so that its contents (even if it's empty) are displayed.
 2. From the address bar of your browser, copy the last portion of the URL. That value is Google Drive's unique opaque ID for the folder. Paste that value in for the `backupDirID` value in the configuration.
+
+### `purge`
+This configures the option to purge (delete) older files from your source location (e.g. your /backup folder on hass[]().io). There two sub-elements:
+- `enabled` Set this boolean to true if you wish to take advantage of this purge feature.
+- `preserve` Set this integer value to the number of files that you wish to preserve (to keep) in your source location. If enabled, this purge feature will delete the oldest files (by date modified) in your source location, preserving the number of more recent files that you specify with this value.
 
 ## Authorizing this Add-On to Upload to Google Drive
 This add-on requires you to authorize it to a limited scope of access to your Google Drive. This specific scope it requires is `https://www.googleapis.com/auth/drive.file`. You can read information about what that scope entails in [Google's Guide to OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/googlescopes). Essentially, it allows this add-on to view and manage Google Drive files and folders that you have opened or created with this add-on.
@@ -55,6 +62,7 @@ The `doBackup` service will respond with JSON reminding you of the configuration
 - how many files were found using the `copyFromFilter`
 - how many of those files had alredy been backed up to your Google Drive and were therfore skipped this time
 - how many files the `doBackup` service actually backed up during this run
+- how many old files were purged (deleted) from the source location
 
 ### Sample JSON Response
 ```
@@ -63,7 +71,8 @@ The `doBackup` service will respond with JSON reminding you of the configuration
     "backupDirID": "1CvPDzNz1v-OuOUqKq3jjoKQt020hKK7R",
     "fileCount": 5,
     "alreadyCount": 2,
-    "backedUpCount": 3
+    "backedUpCount": 3,
+    "deletedCount": 2
 }
 ```
 Unexpected errors will return an HTTP Status Code of some value other than the normal 200 Success Code.

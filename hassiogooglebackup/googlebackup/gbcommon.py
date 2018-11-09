@@ -154,3 +154,20 @@ def backupFiles(fromPattern, backupDirID, user_agent):
                 'backedUpCount': backedUpCount}
 
     return result
+
+def purgeOldFiles(fromPattern, preserve):
+
+    print("Beginning purge process...")
+    sourceFiles = sorted(glob.glob(fromPattern), key=os.path.getmtime)
+    numSourceFiles = len(sourceFiles)
+    deletedCount = 0
+    if numSourceFiles > preserve:
+        numToDelete = numSourceFiles - preserve
+        filesToDelete = sourceFiles[:numToDelete]
+        for file in filesToDelete:
+            os.remove(file)
+            deletedCount += 1
+            print("Deleted " + os.path.basename(file))
+    else:
+        print("Nothing to purge")
+    return deletedCount

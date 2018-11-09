@@ -7,7 +7,7 @@ from django.http import JsonResponse
 import pprint
 import traceback
 
-from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles
+from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles, purgeOldFiles
 
 def index(request):
     return render(request, 'gb/index.html')
@@ -35,11 +35,16 @@ def doBackup(request):
     options = getOptions()
     fromPattern = options["fromPattern"]
     backupDirID = options["backupDirID"]
+    doPurge = options["purge"]["enabled"]
+    preserve = options["purge"]["preserve"]
 
     backupResult = {}
     status = 200
     try:
         backupResult = backupFiles(fromPattern, backupDirID, request.build_absolute_uri('/'))
+        if doPurge:
+            deletedCount = purgeOldFiles(fromPattern, preserve)
+            backupResult['deletedCount'] = deletedCount
     except Exception as e:
         print(traceback.format_exc())
         backupResult = {'errorMessage': str(e)}
