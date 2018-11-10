@@ -6,13 +6,15 @@ This add-on will upload files from your hass[]().io backup folder (typically .ta
 2. This add-on exposes a Web User Interface for obtaining your authorization to upload files to your Google Drive. Once that authorization is established, the Web User Interface is no longer needed - it exists only for this initial setup.
 3. Backups are performed by executing a REST service exposed on the same port as the Web User Interface. Find [more information on the service below](#Calling-the-`doBackup`-Service). You can use [Home Assistant's RESTful Command](https://www.home-assistant.io/components/rest_command/) to integrate this add-on's REST service into your own scripts and automations. You may want to use a REST testing tool like [Postman](https://www.getpostman.com/) to perform initial testing.
 4. Optionally, you may configure this add-on to purge older files from your hass[]().io backup folder.
+5. Optionally, you may also configure this add-on to purge older files from the Google Drive folder that your are archiving your snapshots to.
 
 ## Configuration Options
 Example configuration:
 ```
 {"fromPattern" : "/backup/*.tar",
  "backupDirID" : "1CvPDzNz1v-OuOUqKq3jjoKQt020hKK7R",
- "purge" : {"enabled" : true, "preserve" : 3}}
+ "purge" : {"enabled" : true, "preserve" : 3},
+ "purge_google" : {"enabled" : true, "preserve" : 12}}
 ```
 ### `fromPattern`
 Use this to identify the files on your hass[]().io host that you wish to backup.
@@ -30,6 +32,17 @@ This identifies the Google Drive folder in which you want to place your backed u
 This configures the option to purge (delete) older files from your source location (e.g. your /backup folder on hass[]().io). There two sub-elements:
 - `enabled` Set this boolean to true if you wish to take advantage of this purge feature.
 - `preserve` Set this integer value to the number of files that you wish to preserve (to keep) in your source location. If enabled, this purge feature will delete the oldest files (by date modified) in your source location, preserving the number of more recent files that you specify with this value.
+
+### `purge_google`
+Contrary to its ominous sounding name, this does not purge every file from your Google Drive ;-). This add-on can see **only files that it creates** on your Google Drive. It can also see the folder that you identify for it to place backup files into, but it cannot see files inside that folder unless this add-on created them itself. This option configures the feature to purge (delete) older files from your Google Drive folder (the one you identify in the `backupDirID` option). There two sub-elements:
+- `enabled` Set this boolean to true if you wish to take advantage of this feature.
+- `preserve` Set this integer value to the number of files that you wish to preserve (to keep) in your Google Drive folder. If enabled, this feature will delete the oldest files (by date modified) in your Google Drive folder, preserving the number of more recent files that you specify with this value.
+
+**Important notes about this option:**
+1. This **permanently deletes** the selected files from your Google Drive, bypassing your Google Drive Trash. The idea is to free up available storage on your Google Drive.
+2. It only considers files in the currently configured `backupDirID` folder on Google Drive.
+3. It only considers files created by this add-on (because those are the only files it can see).
+4. It does **not** consider the `fromPattern` setting at all.
 
 ## Authorizing this Add-On to Upload to Google Drive
 This add-on requires you to authorize it to a limited scope of access to your Google Drive. This specific scope it requires is `https://www.googleapis.com/auth/drive.file`. You can read information about what that scope entails in [Google's Guide to OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/googlescopes). Essentially, it allows this add-on to view and manage Google Drive files and folders that you have opened or created with this add-on.
@@ -63,6 +76,7 @@ The `doBackup` service will respond with JSON reminding you of the configuration
 - how many of those files had alredy been backed up to your Google Drive and were therfore skipped this time
 - how many files the `doBackup` service actually backed up during this run
 - how many old files were purged (deleted) from the source location
+- how many old files were purged (deleted) from the target Google Drive folder.
 
 ### Sample JSON Response
 ```
@@ -72,7 +86,8 @@ The `doBackup` service will respond with JSON reminding you of the configuration
     "fileCount": 5,
     "alreadyCount": 2,
     "backedUpCount": 3,
-    "deletedCount": 2
+    "deletedCount": 2,
+    "deletedFromGoogle": 1
 }
 ```
 Unexpected errors will return an HTTP Status Code of some value other than the normal 200 Success Code.

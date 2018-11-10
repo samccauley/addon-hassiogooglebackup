@@ -1,6 +1,6 @@
 {
     "name": "Backup Hassio to Google Drive",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "slug": "googlebackup",
     "description": "Backup hass.io snapshots to Google Drive.",
     "arch": [
@@ -16,11 +16,13 @@
     "options": {
       "fromPattern" : "/backup/*.tar",
       "backupDirID" : "Some_Google_Drive_Unique_Opaque_Folder_ID",
-      "purge" : {"enabled" : false, "preserve" : 3}},
+      "purge" : {"enabled" : false, "preserve" : 3},
+      "purge_google" : {"enabled" : false, "preserve" : 12}},
     "schema": {
       "fromPattern" : "str",
       "backupDirID" : "str",
-      "purge" : {"enabled" : "bool", "preserve" : "int(0,)"}},
+      "purge" : {"enabled" : "bool", "preserve" : "int(0,)"},
+      "purge_google" : {"enabled" : "bool", "preserve" : "int(0,)"}},
     "ports": {
       "8000/tcp": 8055
     },

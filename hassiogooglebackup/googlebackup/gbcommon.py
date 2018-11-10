@@ -171,3 +171,30 @@ def purgeOldFiles(fromPattern, preserve):
     else:
         print("Nothing to purge")
     return deletedCount
+
+def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
+
+    print("Beginning purge Google Drive process...")
+
+    drive_service = getDriveService(user_agent)
+
+    # Search for all files in Google Drive Directory
+    results = drive_service.files().list(
+        q="'" + backupDirID + "' in parents and trashed = false",
+        spaces='drive',
+        orderBy='modifiedTime',
+        fields="files(id, name)").execute()
+    items = results.get('files', [])
+
+    numSourceFiles = len(items)
+    deletedCount = 0
+    if numSourceFiles > preserve:
+        numToDelete = numSourceFiles - preserve
+        filesToDelete = items[:numToDelete]
+        for file in filesToDelete:
+            drive_service.files().delete(fileId=file.get('id')).execute()
+            deletedCount += 1
+            print("Deleted " + file.get('name') + " : " + file.get('id'))
+    else:
+        print("Nothing to purge from Google Drive")
+    return deletedCount

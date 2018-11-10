@@ -7,7 +7,7 @@ from django.http import JsonResponse
 import pprint
 import traceback
 
-from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles, purgeOldFiles
+from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles, purgeOldFiles, purgeOldGoogleFiles
 
 def index(request):
     return render(request, 'gb/index.html')
@@ -37,6 +37,8 @@ def doBackup(request):
     backupDirID = options["backupDirID"]
     doPurge = options["purge"]["enabled"]
     preserve = options["purge"]["preserve"]
+    doGooglePurge = options["purge_google"]["enabled"]
+    preserveInGoogle = options["purge_google"]["preserve"]
 
     backupResult = {}
     status = 200
@@ -45,6 +47,9 @@ def doBackup(request):
         if doPurge:
             deletedCount = purgeOldFiles(fromPattern, preserve)
             backupResult['deletedCount'] = deletedCount
+        if doGooglePurge:
+            deletedFromGoogleCount = purgeOldGoogleFiles(backupDirID, preserveInGoogle, request.build_absolute_uri('/'))
+            backupResult['deletedFromGoogle'] = deletedFromGoogleCount
     except Exception as e:
         print(traceback.format_exc())
         backupResult = {'errorMessage': str(e)}
