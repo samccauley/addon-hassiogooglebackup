@@ -72,6 +72,7 @@ You call the service by simply performing a GET against this URI (in fact, you c
 Substitute in your hass[]().io host name (usually `hassio.local`) and the Host Port number you've configured for this add-on.
 
 The `doBackup` service will respond with JSON reminding you of the configuration settings that it used and indicating:
+- the time the backup operation began, in ISO 8601 format.
 - how many files were found using the `copyFromFilter`
 - how many of those files had alredy been backed up to your Google Drive and were therfore skipped this time
 - how many files the `doBackup` service actually backed up during this run
@@ -81,6 +82,7 @@ The `doBackup` service will respond with JSON reminding you of the configuration
 ### Sample JSON Response
 ```
 {
+    "backupTimestamp": "2018-11-26T09:57:36.206259",
     "fromPattern": "/backup/*.tar",
     "backupDirID": "1CvPDzNz1v-OuOUqKq3jjoKQt020hKK7R",
     "fileCount": 5,
