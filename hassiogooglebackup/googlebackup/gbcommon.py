@@ -11,6 +11,7 @@ import json
 import glob
 import ntpath
 import pprint
+import datetime
 
 OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file'
 
@@ -135,6 +136,7 @@ def backupFile(fileName, backupDirID, drive_service):
 
 def backupFiles(fromPattern, backupDirID, user_agent):
 
+    backupTimestamp = datetime.datetime.now().isoformat()
     drive_service = getDriveService(user_agent)
 
     fileCount = 0
@@ -147,7 +149,8 @@ def backupFiles(fromPattern, backupDirID, user_agent):
         else:
             backupFile(file, backupDirID, drive_service)
             backedUpCount += 1
-    result = {'fromPattern': fromPattern,
+    result = {'backupTimestamp': backupTimestamp,
+                'fromPattern': fromPattern,
                 'backupDirID': backupDirID,
                 'fileCount': fileCount,
                 'alreadyCount': alreadyCount,
