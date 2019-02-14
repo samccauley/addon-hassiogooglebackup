@@ -25,6 +25,10 @@ SECRET_KEY = '70mm#takprrt)6$=k(2h!dikc0d6qwo5#czl(+!oy$=xdv^2=l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+import logging
+logging.getLogger().setLevel(logging.ERROR)
+logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
+
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
@@ -123,7 +127,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Attempt to pull in local settings (which will override any primary
+# settings of the same name), if they exist. If they don't exist,
+# that just means that we're not running locally but we're running in a 
+# container instead.
+#
+# In order to run locally, using local settings, you just need to enusre
+# that a file named local_settings.py exists in the same directory as
+# the normal settings.py Django settings file. The local_settings.py file
+# should be ignored by version control so that it doesn't end up in the code
+# that gets built into the production container image. 
 try:
   from .local_settings import *
 except ImportError:
-  print("No local_settings to import")
+  logging.info("No local_settings to import")

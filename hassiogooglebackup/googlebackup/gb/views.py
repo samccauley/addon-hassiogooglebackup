@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 
-import pprint
+import logging
 import traceback
 
 from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles, purgeOldFiles, purgeOldGoogleFiles
@@ -51,7 +51,7 @@ def doBackup(request):
             deletedFromGoogleCount = purgeOldGoogleFiles(backupDirID, preserveInGoogle, request.build_absolute_uri('/'))
             backupResult['deletedFromGoogle'] = deletedFromGoogleCount
     except Exception as e:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         backupResult = {'errorMessage': str(e)}
         status = 500
 

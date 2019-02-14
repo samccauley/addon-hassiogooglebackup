@@ -4,13 +4,14 @@ from google_auth_oauthlib.flow import Flow
 from oauth2client.client import GoogleCredentials
 from googleapiclient.discovery import build
 from httplib2 import Http
+import logging
 
 from django.conf import settings
 import os
 import json
 import glob
 import ntpath
-import pprint
+from pprint import pformat
 import datetime
 
 OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file'
@@ -107,7 +108,7 @@ def alreadyBackedUp(fileName, backupDirID, drive_service):
 
 def backupFile(fileName, backupDirID, drive_service):
 
-    print("Backing up " + fileName + " to " + backupDirID)
+    logging.info("Backing up " + fileName + " to " + backupDirID)
 
     shortFileName = ntpath.basename(fileName)
 
@@ -132,7 +133,7 @@ def backupFile(fileName, backupDirID, drive_service):
 
     new_file = drive_service.files().create(
     body=body, media_body=media_body).execute()
-    pprint.pprint(new_file)
+    logging.debug(pformat(new_file))
 
 def backupFiles(fromPattern, backupDirID, user_agent):
 
@@ -160,7 +161,7 @@ def backupFiles(fromPattern, backupDirID, user_agent):
 
 def purgeOldFiles(fromPattern, preserve):
 
-    print("Beginning purge process...")
+    logging.info("Beginning purge process...")
     sourceFiles = sorted(glob.glob(fromPattern), key=os.path.getmtime)
     numSourceFiles = len(sourceFiles)
     deletedCount = 0
@@ -170,14 +171,14 @@ def purgeOldFiles(fromPattern, preserve):
         for file in filesToDelete:
             os.remove(file)
             deletedCount += 1
-            print("Deleted " + os.path.basename(file))
+            logging.info("Deleted " + os.path.basename(file))
     else:
-        print("Nothing to purge")
+        logging.info("Nothing to purge")
     return deletedCount
 
 def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
 
-    print("Beginning purge Google Drive process...")
+    logging.info("Beginning purge Google Drive process...")
 
     drive_service = getDriveService(user_agent)
 
@@ -197,7 +198,7 @@ def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
         for file in filesToDelete:
             drive_service.files().delete(fileId=file.get('id')).execute()
             deletedCount += 1
-            print("Deleted " + file.get('name') + " : " + file.get('id'))
+            logging.info("Deleted " + file.get('name') + " : " + file.get('id'))
     else:
-        print("Nothing to purge from Google Drive")
+        logging.info("Nothing to purge from Google Drive")
     return deletedCount
