@@ -14,7 +14,8 @@ Example configuration:
 {"fromPattern" : "/backup/*.tar",
  "backupDirID" : "1CvPDzNz1v-OuOUqKq3jjoKQt020hKK7R",
  "purge" : {"enabled" : true, "preserve" : 3},
- "purge_google" : {"enabled" : true, "preserve" : 12}}
+ "purge_google" : {"enabled" : true, "preserve" : 12},
+ "debug" : false}
 ```
 ### `fromPattern`
 Use this to identify the files on your hass[]().io host that you wish to backup.
@@ -43,6 +44,9 @@ Contrary to its ominous sounding name, this does not purge every file from your 
 2. It only considers files in the currently configured `backupDirID` folder on Google Drive.
 3. It only considers files created by this add-on (because those are the only files it can see).
 4. It does **not** consider the `fromPattern` setting at all.
+
+### `debug`
+Defaults to `false` if not present. Set this to `true` to enable debug-level logging.
 
 ## Authorizing this Add-On to Upload to Google Drive
 This add-on requires you to authorize it to a limited scope of access to your Google Drive. This specific scope it requires is `https://www.googleapis.com/auth/drive.file`. You can read information about what that scope entails in [Google's Guide to OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/googlescopes). Essentially, it allows this add-on to view and manage Google Drive files and folders that you have opened or created with this add-on.
