@@ -23,29 +23,6 @@ DATA_PATH = "/data"
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '70mm#takprrt)6$=k(2h!dikc0d6qwo5#czl(+!oy$=xdv^2=l'
 
-# Direct all logging to the console
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler'
-        },
-    },
-    'loggers': {
-        '': {  # 'catch all' loggers by referencing it with the empty string
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-import logging
-logging.getLogger().setLevel(logging.ERROR)
-logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
-
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
@@ -157,4 +134,17 @@ STATIC_URL = '/static/'
 try:
   from .local_settings import *
 except ImportError:
+  gb_debug = os.environ.get('GB_DEBUG')
+  if (gb_debug == "true"):
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    import logging
+    logging.basicConfig(level="DEBUG")
+    logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
+  else:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+    import logging
+    logging.basicConfig(level="INFO")
+    logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
   logging.info("No local_settings to import")
