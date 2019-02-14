@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.0] - 2019-02-14
 ### Added
 - Improved logging and added option to run in DEBUG mode.
+### Fixed
+- Upgraded Django from 2.1.2 to 2.1.7 patching security vulnerabilities.
 
 ## [1.3.0] - 2018-11-26
 ### Added
