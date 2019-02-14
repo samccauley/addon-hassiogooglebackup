@@ -134,7 +134,7 @@ STATIC_URL = '/static/'
 try:
   from .local_settings import *
 except ImportError:
-  gb_debug = os.environ.get('GB_DEBUG')
+  gb_debug = str(os.environ.get('GB_DEBUG'))
   print("gb_debug = " + gb_debug)
   if (gb_debug == "true"):
     print("Setting up debug logging")
