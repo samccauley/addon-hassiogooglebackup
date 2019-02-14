@@ -135,13 +135,16 @@ try:
   from .local_settings import *
 except ImportError:
   gb_debug = os.environ.get('GB_DEBUG')
+  print("gb_debug = " + gb_debug)
   if (gb_debug == "true"):
+    print("Setting up debug logging")
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
     import logging
     logging.basicConfig(level="DEBUG")
     logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
   else:
+    print("Setting up normal logging")
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
     import logging
