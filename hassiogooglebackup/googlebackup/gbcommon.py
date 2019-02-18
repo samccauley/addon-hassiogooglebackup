@@ -169,8 +169,6 @@ def backupFiles(fromPattern, backupDirID, user_agent):
                 'fileCount': fileCount,
                 'alreadyCount': alreadyCount,
                 'backedUpCount': backedUpCount}
-    logging.info("googlebackup result: " + str(result)) 
-    publishResult(result)
     return result
 
 def purgeOldFiles(fromPattern, preserve):
