@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] - 2019-02-18
 ### Added
 - Now publishing result JSON object as an MQTT event.
+### Fixed
+- Built using latest version of hass[]()io builder in hope to eliminate seqmentation fault being experienced by some users. 
 
 ## [1.4.0] - 2019-02-14
 ### Added
