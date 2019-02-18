@@ -56,6 +56,10 @@ def doBackup(request):
         status = 500
 
     logging.info("googlebackup result: " + str(backupResult)) 
-    publishResult(backupResult)
+
+    try:
+        publishResult(backupResult)
+    except Exception as e:
+        logging.warning(traceback.format_exec())
 
     return JsonResponse(backupResult, status=status)
