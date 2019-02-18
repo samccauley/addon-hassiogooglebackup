@@ -7,7 +7,7 @@ from django.http import JsonResponse
 import logging
 import traceback
 
-from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles, purgeOldFiles, purgeOldGoogleFiles
+from gbcommon import getOptions, backupFile, requestAuthorization, fetchAndSaveTokens, backupFiles, purgeOldFiles, purgeOldGoogleFiles, publishResult
 
 def index(request):
     return render(request, 'gb/index.html')
@@ -54,5 +54,8 @@ def doBackup(request):
         logging.error(traceback.format_exc())
         backupResult = {'errorMessage': str(e)}
         status = 500
+
+    logging.info("googlebackup result: " + str(backupResult)) 
+    publishResult(backupResult)
 
     return JsonResponse(backupResult, status=status)

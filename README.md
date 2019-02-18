@@ -98,7 +98,9 @@ The `doBackup` service will respond with JSON reminding you of the configuration
 ```
 Unexpected errors will return an HTTP Status Code of some value other than the normal 200 Success Code.
 
-### Integrating into Home Assistant
+## Integrating into Home Assistant
+
+### Automating Backups with Home Assistant
 You can easily integrate this add-on's REST service into Home Assistant using [Home Assistant's RESTful Command](https://www.home-assistant.io/components/rest_command/). You'll probably need to use `localhost` instead of `hassio.local` in this configuration. You'll also want to specify an adequate timeout value. Here's how I setup mine:
 ```
 rest_command:
@@ -108,5 +110,15 @@ rest_command:
 ```
 With the REST Command created, you'll see your Google Backup Service available as `rest_command.google_backup` in [Home Assistant's Services Development Tool](https://www.home-assistant.io/docs/tools/dev-tools/), and you'll also be able to call it as part of [Home Assistant Automations](https://www.home-assistant.io/components/automation/).
 
+### MQTT Event
+Everytime the doBackup service is executed, an event is published to the [MQTT broker](https://www.home-assistant.io/components/mqtt/) that you have configured in Home Assistant. The payload of the event is a copy of the JSON response described above. The event is published to the `googlebackup/result` topic.
+
+Here is an example Home Assistant Sensor configuration that monitors for these events:
+```
+  - platform: mqtt
+    name: "Google Backup Results"
+    state_topic: "googlebackup/result"
+    json_attributes_topic: "googlebackup/result"
+```
 
 [logo]: hassiogooglebackup/logo.png

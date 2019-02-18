@@ -5,6 +5,7 @@ from oauth2client.client import GoogleCredentials
 from googleapiclient.discovery import build
 from httplib2 import Http
 import logging
+import requests
 
 from django.conf import settings
 import os
@@ -135,6 +136,18 @@ def backupFile(fileName, backupDirID, drive_service):
     body=body, media_body=media_body).execute()
     logging.debug(pformat(new_file))
 
+def publishResult(result):
+    url = settings.HA_MQTT_PUBLISH_URL
+    data = {"payload" : json.dumps(result),
+            "topic" : settings.HA_MQTT_RESULT_TOPIC,
+            "retain" : settings.HA_MQTT_RESULT_RETAIN}
+    data_json = json.dumps(data)
+    headers = {'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + settings.HA_TOKEN}
+
+    response = requests.post(url, data=data_json, headers=headers)
+    logging.debug(pformat(response))
+
 def backupFiles(fromPattern, backupDirID, user_agent):
 
     backupTimestamp = datetime.datetime.now().isoformat()
@@ -156,7 +169,8 @@ def backupFiles(fromPattern, backupDirID, user_agent):
                 'fileCount': fileCount,
                 'alreadyCount': alreadyCount,
                 'backedUpCount': backedUpCount}
-
+    logging.info("googlebackup result: " + str(result)) 
+    publishResult(result)
     return result
 
 def purgeOldFiles(fromPattern, preserve):

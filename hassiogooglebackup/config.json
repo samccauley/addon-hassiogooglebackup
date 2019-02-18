@@ -1,6 +1,6 @@
 {
     "name": "Backup Hassio to Google Drive",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "slug": "googlebackup",
     "description": "Backup hass.io snapshots to Google Drive.",
     "arch": [
@@ -12,6 +12,7 @@
     "startup": "services",
     "webui": "http://[HOST]:[PORT:8000]/gb",
     "boot": "auto",
+    "homeassistant_api": true,
     "map": ["backup:rw"],
     "options": {
       "fromPattern" : "/backup/*.tar",

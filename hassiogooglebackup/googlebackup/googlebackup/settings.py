@@ -15,7 +15,19 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Application settings here in this section. Most are related to
+# integrating with Home Assistant and Hass.io.
+# 
+# This group of application settings get overridden for local execution
 DATA_PATH = "/data"
+HA_BASE_URL = "http://hassio/homeassistant/api"
+HA_TOKEN = str(os.environ.get('HASSIO_TOKEN'))
+HA_MQTT_PUBLISH_URL = HA_BASE_URL + "/services/mqtt/publish"
+
+# This group of application settings are the same regardless of
+# local or production execution.
+HA_MQTT_RESULT_TOPIC = "googlebackup/result"
+HA_MQTT_RESULT_RETAIN = "False"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -122,7 +134,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Attempt to pull in local settings (which will override any primary
-# settings of the same name), if they exist. If they don't exist,
+# settings of the same name, except for logging.basicConfig which
+# can be done only once), if they exist. If they don't exist,
 # that just means that we're not running locally but we're running in a 
 # container instead.
 #
