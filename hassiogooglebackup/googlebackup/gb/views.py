@@ -60,6 +60,6 @@ def doBackup(request):
     try:
         publishResult(backupResult)
     except Exception as e:
-        logging.warning(traceback.format_exec())
+        logging.warning(traceback.format_exc())
 
     return JsonResponse(backupResult, status=status)
