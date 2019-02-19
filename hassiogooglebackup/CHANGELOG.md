@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2019-02-19
+### Fixed
+- Changed MQTT topic from retain=True to retain=False.
+- For 64 bit (aarch64) platform, reverted to earlier hass[]()io base image using alpine 3.8 instead of 3.9. Alpine 3.9 seems to be what may be causing segmentation faults for 64 bit Raspberry pi users.
+
 ## [1.5.0] - 2019-02-18
 ### Added
 - Now publishing result JSON object as an MQTT event.

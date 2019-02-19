@@ -27,7 +27,7 @@ HA_MQTT_PUBLISH_URL = HA_BASE_URL + "/services/mqtt/publish"
 # This group of application settings are the same regardless of
 # local or production execution.
 HA_MQTT_RESULT_TOPIC = "googlebackup/result"
-HA_MQTT_RESULT_RETAIN = "True"
+HA_MQTT_RESULT_RETAIN = "False"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/

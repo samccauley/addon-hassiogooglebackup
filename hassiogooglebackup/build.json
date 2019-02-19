@@ -1,0 +1,5 @@
+{
+    "build_from": {
+        "aarch64": "homeassistant/aarch64-homeassistant-base:20181114"
+    }
+}
