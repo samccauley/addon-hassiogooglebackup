@@ -3,8 +3,6 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN which python
-
 # Install requirements for add-on
 RUN apk add --no-cache \
     build-base \
