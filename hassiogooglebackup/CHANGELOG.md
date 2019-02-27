@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.2] - 2019-02-27
 ### Fixed
-- Changed to use Python base build
+- Changed to use Python base build in attempt to avoid segmentation faults being experienced by users on 64 bit Hassos.
 
 ## [1.5.1] - 2019-02-19
 ### Fixed
