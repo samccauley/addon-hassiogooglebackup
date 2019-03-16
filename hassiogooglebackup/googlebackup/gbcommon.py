@@ -14,6 +14,7 @@ import glob
 import ntpath
 from pprint import pformat
 import datetime
+import mimetypes
 
 OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file'
 
@@ -107,23 +108,49 @@ def alreadyBackedUp(fileName, backupDirID, drive_service):
 
     return len(items) > 0
 
-def backupFile(fileName, backupDirID, drive_service):
-
-    logging.info("Backing up " + fileName + " to " + backupDirID)
+def deleteIfThere(fileName, backupDirID, drive_service):
 
     shortFileName = ntpath.basename(fileName)
 
-    # Metadata about the file.
-    # Only supported file type right now is tar file.
-    MIMETYPE = 'application/tar'
-    TITLE = 'Hassio Snapshot'
-    DESCRIPTION = 'Hassio Snapshot backup copy'
+    logging.debug("Will delete " + shortFileName + " if it is already in Google Drive.")
+
+    # Search for given file in Google Drive Directory
+    results = drive_service.files().list(
+        q="name='" + shortFileName + "' and '" + backupDirID + "' in parents and trashed = false",
+        spaces='drive',
+        fields="files(id, name)").execute()
+    items = results.get('files', [])
+
+    logging.debug("Found " + str(len(items)) + " files named " + shortFileName + " in Google Drive.")
+
+    deletedCount = 0
+    for file in items:
+        drive_service.files().delete(fileId=file.get('id')).execute()
+        deletedCount += 1
+        logging.info("Deleted " + file.get('name') + " : " + file.get('id'))
+
+    logging.info("Deleted " + str(deletedCount) + " files named " + shortFileName + " from Google Drive.")
+
+    return deletedCount
+
+def backupFile(fileName, backupDirID, drive_service, MIMETYPE, TITLE, DESCRIPTION):
+
+    logging.info("Backing up " + fileName + " to " + backupDirID)
+
+    logging.debug("drive_service = " + str(drive_service))
+    logging.debug("MIMETYPE = " + MIMETYPE)
+    logging.debug("TITLE = " + TITLE)
+    logging.debug("DESCRIPTION = " + DESCRIPTION)
+
+    shortFileName = ntpath.basename(fileName)
 
     media_body = googleapiclient.http.MediaFileUpload(
         fileName,
         mimetype=MIMETYPE,
         resumable=True
     )
+
+    logging.debug("media_body: " + str(media_body))
 
     body = {
         'name': shortFileName,
@@ -148,7 +175,65 @@ def publishResult(result):
     response = requests.post(url, data=data_json, headers=headers)
     logging.debug(pformat(response))
 
+def publishAdhocResult(result):
+    url = settings.HA_MQTT_PUBLISH_URL
+    data = {"payload" : json.dumps(result),
+            "topic" : settings.HA_MQTT_ADHOC_RESULT_TOPIC,
+            "retain" : settings.HA_MQTT_ADHOC_RESULT_RETAIN}
+    data_json = json.dumps(data)
+    headers = {'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + settings.HA_TOKEN}
+
+    response = requests.post(url, data=data_json, headers=headers)
+    logging.debug(pformat(response))
+
+def adhocBackupFiles(fromPatterns, backupDirID, user_agent):
+    logging.debug("Adhoc backup fromPatterns: " + str(fromPatterns))
+    logging.debug("Adhoc backup backupDirID: " + backupDirID)
+    logging.debug("Adhoc backup user_agent: " + user_agent)
+
+    backupTimestamp = datetime.datetime.now().isoformat()
+    drive_service = getDriveService(user_agent)
+
+    copyCount = 0
+    newCount = 0
+    replacedCount = 0
+
+    filesToCopy = []
+    for fromPattern in fromPatterns:
+        filesToCopy.extend(glob.glob(fromPattern))
+
+    for file in filesToCopy:
+
+        file_size = os.path.getsize(file)
+        if file_size == 0:
+            raise Exception("The file, " + file + " is empty. This application cannot copy empty (size = 0) files to Google Drive.")
+    
+        matchesFound = deleteIfThere(file, backupDirID, drive_service)
+        if matchesFound == 0:
+            newCount += 1
+        else:
+            replacedCount += matchesFound
+        shortFileName = ntpath.basename(file)
+        MIMETYPE = mimetypes.MimeTypes().guess_type(shortFileName, False)[0]
+        TITLE = shortFileName
+        DESCRIPTION = 'Backup from hassio of ' + file
+        backupFile(file, backupDirID, drive_service, MIMETYPE, TITLE, DESCRIPTION)
+        copyCount += 1
+
+    result = {'adhocBackupTimestamp': backupTimestamp,
+                'fromPatterns': fromPatterns,
+                'backupDirID': backupDirID,
+                'copyCount': copyCount,
+                'newCount': newCount,
+                'replacedCount': replacedCount}
+    return result
+
 def backupFiles(fromPattern, backupDirID, user_agent):
+
+    logging.debug("backup fromPattern: " + fromPattern)
+    logging.debug("backup backupDirID: " + backupDirID)
+    logging.debug("backup user_agent: " + user_agent)
 
     backupTimestamp = datetime.datetime.now().isoformat()
     drive_service = getDriveService(user_agent)
@@ -158,10 +243,20 @@ def backupFiles(fromPattern, backupDirID, user_agent):
     backedUpCount = 0
     for file in glob.glob(fromPattern):
         fileCount += 1
+
+        file_size = os.path.getsize(file)
+        if file_size == 0:
+            raise Exception("The file, " + file + " is empty. This application cannot copy empty (size = 0) files to Google Drive.")
+    
         if alreadyBackedUp(file, backupDirID, drive_service):
             alreadyCount += 1
         else:
-            backupFile(file, backupDirID, drive_service)
+            # Metadata about the file.
+            # Only supported file type right now is tar file.
+            MIMETYPE = 'application/tar'
+            TITLE = 'Hassio Snapshot'
+            DESCRIPTION = 'Hassio Snapshot backup copy'
+            backupFile(file, backupDirID, drive_service, MIMETYPE, TITLE, DESCRIPTION)
             backedUpCount += 1
     result = {'backupTimestamp': backupTimestamp,
                 'fromPattern': fromPattern,

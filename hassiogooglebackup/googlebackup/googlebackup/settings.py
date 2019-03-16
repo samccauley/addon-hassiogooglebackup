@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import mimetypes
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +29,14 @@ HA_MQTT_PUBLISH_URL = HA_BASE_URL + "/services/mqtt/publish"
 # local or production execution.
 HA_MQTT_RESULT_TOPIC = "googlebackup/result"
 HA_MQTT_RESULT_RETAIN = "False"
+HA_MQTT_ADHOC_RESULT_TOPIC = "googlebackup/adhocresult"
+HA_MQTT_ADHOC_RESULT_RETAIN = "False"
+
+# Initialize mimetypes
+mimetypes.init()
+mimetypes.add_type("text/x-yaml", ".yaml")
+mimetypes.add_type("text/x-yaml", ".yml")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
