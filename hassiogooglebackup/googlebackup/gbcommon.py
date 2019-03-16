@@ -201,7 +201,11 @@ def adhocBackupFiles(fromPatterns, backupDirID, user_agent):
 
     filesToCopy = []
     for fromPattern in fromPatterns:
-        filesToCopy.extend(glob.glob(fromPattern))
+        globResult = glob.glob(fromPattern)
+        logging.debug("glob of " + fromPattern + " returned " + globResult)
+        filesToCopy.extend(globResult)
+
+    logging.debug("Files to copy: " + str(filesToCopy))
 
     for file in filesToCopy:
 
