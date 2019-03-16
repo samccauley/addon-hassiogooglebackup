@@ -149,22 +149,16 @@ Unexpected errors will return an HTTP Status Code of some value other than the n
 ## Integrating into Home Assistant
 
 ### Automating Backups with Home Assistant
-You can easily integrate this add-on's REST service operations into Home Assistant using [Home Assistant's RESTful Command](https://www.home-assistant.io/components/rest_command/). You'll probably need to use `localhost` instead of `hassio.local` in this configuration. You'll also want to specify an adequate timeout value. Here's how I setup mine:
+You can easily integrate this add-on's `doBackup` REST service operation into Home Assistant using [Home Assistant's RESTful Command](https://www.home-assistant.io/components/rest_command/). You'll probably need to use `localhost` instead of `hassio.local` in this configuration. You'll also want to specify an adequate timeout value. Here's how I setup mine:
 ```
 rest_command:
   google_backup:
     url: 'http://localhost:8055/gb/doBackup'
     timeout: '300'
-  google_adhoc_backup:
-    url: 'http://localhost:8055/gb/adhocBackup'
-    method: POST
-    content_type: 'application/json; charset=utf-8'
-    payload: '{"fromPatterns":"{{ fromPatterns }}","backupDirID": "{{ backupDirID }}"}'
-    timeout: '300'
 ```
-With the REST Commands created, you'll see your Google Backup Services available as `rest_command.google_backup` and `rest_command.google_adhoc_backup` in [Home Assistant's Services Development Tool](https://www.home-assistant.io/docs/tools/dev-tools/), and you'll also be able to call them as part of [Home Assistant Automations](https://www.home-assistant.io/components/automation/).
+With this REST Command created, you'll see your Google Backup Service available as `rest_command.google_backup` in [Home Assistant's Services Development Tool](https://www.home-assistant.io/docs/tools/dev-tools/), and you'll also be able to call it as part of [Home Assistant Automations](https://www.home-assistant.io/components/automation/).
 
-With the above configuration, the `rest_command.google_backup`, requiring no arguments, will be very simple to execute from the [Home Assistant's Services Development Tool](https://www.home-assistant.io/docs/tools/dev-tools/) and from [Home Assistant Automations](https://www.home-assistant.io/components/automation/). The `rest_command.google_adhoc_backup`, however, will require you to supply values to be substituted into the template as configured above. Here's an example of how you could supply the values: `{"fromPatterns" : ["/config/configuration.yaml", "/config/automations.yaml"], "backupDirID" : "4FtLMzNz1v-OuOUqKq3jjoKQt020hLL9P"}`.
+Because the `adhocBackup` operation requires a JSON array, I've not been able to figure out how to configure a REST Command for it in Home Assistant. If you figure it out, let me know. For now, you can call the `adhocBackup` operation from tools like [Postman](https://www.getpostman.com/). You'll want to setup your tool do a POST method, passing in JSON (Content-Type of appliction/json). Here's an example JSON request: `{"fromPatterns" : ["/config/configuration.yaml", "/config/automations.yaml"], "backupDirID" : "4FtLMzNz1v-OuOUqKq3jjoKQt020hLL9P"}`.
 
 ### MQTT Event
 Everytime the doBackup operation, or the adhocBackup operation, is executed, an event is published to the [MQTT broker](https://www.home-assistant.io/components/mqtt/) that you have configured in Home Assistant. The payload of the event is a copy of the JSON response described above. The event is published to either the `googlebackup/result` or the `googlebackup/adhocresult` topic, depending on which operation was called.
