@@ -37,6 +37,8 @@ def authConfirmed(request):
 @csrf_exempt
 def adhocBackup(request):
 
+    logging.debug("adhocBackup request.body: " + str(request.body))
+    
     json_request = json.loads(request.body)
     fromPatterns = json_request['fromPatterns']
     backupDirID = json_request['backupDirID']
