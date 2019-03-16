@@ -13,7 +13,7 @@
     "webui": "http://[HOST]:[PORT:8000]/gb",
     "boot": "auto",
     "homeassistant_api": true,
-    "map": ["backup:rw"],
+    "map": ["config", "ssl", "addons", "backup:rw", "share"],
     "options": {
       "fromPattern" : "/backup/*.tar",
       "backupDirID" : "Some_Google_Drive_Unique_Opaque_Folder_ID",
