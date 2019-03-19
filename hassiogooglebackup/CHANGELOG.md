@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2019-03-19
+### Fixed
+- Modified config to reduce unnecessary CPU usage.
+
 ## [1.6.0] - 2019-03-16
 ### New
 - Added a second service operation called `adhocBackup`. This is completely separate from the normal backup operations performed using the `doBackup` service operation. The new adhoc backups do not rely on the pre-configured options `fromPattern`, `backupDirID`, `purge` and `purge_google`. Instead, an adhoc backup request identifies which files are to be backed up and which Google Drive folder is to be targeted each time it is placed (hence the name, "adhoc"). The concept of "purging" of older files while preserving more recent files does not apply at all to adhoc backups. Adhoc backups simply copy each identified file from your hass[]().io host to your Google Drive, **replacing the target file on Google Drive if it already exists**.
