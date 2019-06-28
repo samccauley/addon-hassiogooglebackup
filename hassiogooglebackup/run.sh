@@ -2,10 +2,9 @@
 
 
 OPTIONS_PATH=/data/options.json
-CONFIG_PATH=/data/config.json
 
 GB_DEBUG="$(jq --raw-output '.debug' $OPTIONS_PATH)"
-GB_VERSION="$(jq --raw-output '.version' $CONFIG_PATH)"
+GB_VERSION="1.6.2"
 
 echo "GB_DEBUG = $GB_DEBUG"
 echo "GB_VERSION = $GB_VERSION"
