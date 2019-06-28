@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.2] - 2019-06-28
 ### Fixed
-- Updated Django to 2.1.9 and updated urllib3 to 1.25.3 to address vulnerabilities
+- Updated Django to 2.1.9 and updated urllib3 to 1.24.2 to address vulnerabilities
 
 ## [1.6.1] - 2019-03-19
 ### Fixed
