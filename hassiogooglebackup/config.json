@@ -1,6 +1,6 @@
 {
     "name": "Backup Hassio to Google Drive",
-    "version": "1.6.2",
+    "version": "1.7.0",
     "slug": "googlebackup",
     "description": "Backup hass.io snapshots to Google Drive.",
     "arch": [
@@ -11,6 +11,8 @@
     "url": "https://github.com/samccauley/addon-hassiogooglebackup#readme",
     "startup": "services",
     "webui": "http://[HOST]:[PORT:8000]/gb",
+    "ingress": true,
+    "ingress_entry": "/gb",
     "boot": "auto",
     "homeassistant_api": true,
     "map": ["config", "ssl", "addons", "backup:rw", "share"],
@@ -27,7 +29,10 @@
       "purge_google" : {"enabled" : "bool", "preserve" : "int(0,)"},
       "debug" : "bool"},
     "ports": {
-      "8000/tcp": 8055
+      "8000/tcp": null
     },
+    "ports_description": {
+      "8000/tcp": "Web Terminal (Not required for Hass.io Ingress)"
+    },  
     "image": "samccauley/{arch}-googlebackup"
 }
