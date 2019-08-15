@@ -12,6 +12,10 @@ echo "GB_DEBUG = $GB_DEBUG"
 echo "GB_VERSION = $GB_VERSION"
 echo "INGRESS_IP = $INGRESS_IP"
 
+if [$GB_DEBUG == true]
+    curl -H 'X-HASSIO-KEY: ${HASSIO_TOKEN}' 'http://hassio/addons/self/info'
+fi
+
 export GB_DEBUG
 export GB_VERSION
 
