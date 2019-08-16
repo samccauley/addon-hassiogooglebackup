@@ -12,7 +12,7 @@ echo "GB_DEBUG = $GB_DEBUG"
 echo "GB_VERSION = $GB_VERSION"
 echo "INGRESS_IP = $INGRESS_IP"
 
-if [$GB_DEBUG == "true"]; then
+if [$GB_DEBUG]; then
     echo "Here is the output from /addons/self/info"
     curl -s -H 'X-HASSIO-KEY: ${HASSIO_TOKEN}' 'http://hassio/addons/self/info'
     echo "End of output from /addons/self/info"
