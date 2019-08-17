@@ -8,7 +8,13 @@ GB_VERSION="1.7.0"
 
 auth_header="X-HASSIO-KEY: ${HASSIO_TOKEN}"
 
-INGRESS_IP="$(curl -s -H \"${auth_header}\" 'http://hassio/addons/self/info' | jq -r '.data.ip_address')"
+json_info=curl -s -H "${auth_header}" 'http://hassio/addons/self/info'
+echo "Here is the json_info"
+echo $json_info
+echo -e "\nEnd of json_info"
+
+#INGRESS_IP="$(curl -s -H \"${auth_header}\" 'http://hassio/addons/self/info' | jq -r '.data.ip_address')"
+INGRESS_IP="$(${json_info} | jq -r '.data.ip_address')"
 
 echo "GB_DEBUG = $GB_DEBUG"
 echo "GB_VERSION = $GB_VERSION"
