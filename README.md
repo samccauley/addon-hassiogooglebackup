@@ -52,7 +52,7 @@ Contrary to its ominous sounding name, this does not purge every file from your 
 Defaults to `false` if not present. Set this to `true` to enable debug-level logging.
 
 ## Authorizing this Add-On to Upload to Google Drive
-This add-on requires you to authorize it to a limited scope of access to your Google Drive. This specific scope it requires is `https://www.googleapis.com/auth/drive.file`. You can read information about what that scope entails in [Google's Guide to OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/googlescopes). Essentially, it allows this add-on to view and manage Google Drive files and folders that you have opened or created with this add-on.
+This add-on requires you to authorize it to a limited scope of access to your Google Drive. The specific scope it requires is `https://www.googleapis.com/auth/drive.file`. You can read information about what that scope entails in [Google's Guide to OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/googlescopes). Essentially, it allows this add-on to view and manage Google Drive files and folders that you have opened or created with this add-on.
 
 Before using the [`doBackup` service operation](Calling-the-`doBackup`-Operation), you need to follow these steps to grant this add-on the required authorization:
 1. Start this add-on and make sure that it is set to `Start on boot`.

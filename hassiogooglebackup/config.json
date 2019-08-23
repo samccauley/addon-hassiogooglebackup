@@ -10,7 +10,7 @@
     ],
     "url": "https://github.com/samccauley/addon-hassiogooglebackup#readme",
     "startup": "services",
-    "webui": "http://[HOST]:[PORT:8000]/gb",
+    "webui": "http://[HOST]:[PORT:8099]/gb",
     "ingress": true,
     "ingress_entry": "gb",
     "hassio_api": true,
@@ -30,10 +30,12 @@
       "purge_google" : {"enabled" : "bool", "preserve" : "int(0,)"},
       "debug" : "bool"},
     "ports": {
-      "8000/tcp": null
+      "8000/tcp": 8055,
+      "8099/tcp": null
     },
     "ports_description": {
-      "8000/tcp": "Web Terminal (Not required for Hass.io Ingress)"
+      "8000/tcp": "REST Service Interface Port",
+      "8099/tcp": "Web Terminal (Not required for Hass.io Ingress)"
     },  
     "image": "samccauley/{arch}-googlebackup"
 }

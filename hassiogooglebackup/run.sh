@@ -28,7 +28,10 @@ fi
 
 export GB_DEBUG
 export GB_VERSION
-export INGRESS_ENTRY
 
 cd googlebackup
+
+python manage.py runserver --noreload 0.0.0.0:8000
+
+export INGRESS_ENTRY
 python manage.py runserver --noreload $INGRESS_IP:$INGRESS_PORT
