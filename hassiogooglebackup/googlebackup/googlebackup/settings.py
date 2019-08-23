@@ -72,6 +72,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ingress_entry = str(os.environ.get('INGRESS_ENTRY'))
+FORCE_SCRIPT_NAME = ingress_entry
 APPEND_SLASH = False
 ROOT_URLCONF = 'googlebackup.urls'
 
