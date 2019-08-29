@@ -14,6 +14,7 @@ google-api-python-client==1.7.4
 google-auth-httplib2==0.0.3
 google-auth-oauthlib==0.2.0
 google-auth==1.5.1
+gunicorn==19.9.0
 httplib2==0.11.3
 idna==2.7
 isort==4.3.4

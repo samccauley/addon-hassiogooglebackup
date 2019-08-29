@@ -25,4 +25,5 @@ export GB_VERSION
 export GB_SLUG
 
 cd googlebackup
-python manage.py runserver --noreload 0.0.0.0:8000
+# python manage.py runserver --noreload 0.0.0.0:8000
+gunicorn -b 0.0.0.0:8000 googlebackup.wsgi:app
