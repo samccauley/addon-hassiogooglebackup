@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Updated Django to 2.1.11 to address vulnerabilities
 ### Fixed
-- Added Gunicorn as the web server. Previously was just using Dgjango's development server - not good practice, I know. I was lazy.
+- Added Gunicorn as the web server. Previously was just using Django's development server - not good practice, I know. I was lazy.
 
 ## [1.6.2] - 2019-06-28
 ### Fixed
