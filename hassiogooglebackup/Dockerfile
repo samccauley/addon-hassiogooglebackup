@@ -7,6 +7,7 @@ ENV LANG C.UTF-8
 RUN apk add --no-cache \
     build-base \
     jq \
+    py-gevent \
   && python3 -m ensurepip \
   && rm -r /usr/local/lib/python*/ensurepip \
   && pip3 install --upgrade pip setuptools \
