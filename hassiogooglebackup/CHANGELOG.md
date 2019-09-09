@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.1] - 2019-09-09
+### Fixed
+- Fixed Gunicorn settings to support async worker threads. This is necessary to support larger snapshots that take longer to upload to Google Drive. I should've had it configured this way from the start in v 1.7.0.
+
 ## [1.7.0] - 2019-08-29
 ### Fixed
 - Updated Django to 2.1.11 to address vulnerabilities

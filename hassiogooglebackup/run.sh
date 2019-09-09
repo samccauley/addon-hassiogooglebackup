@@ -25,4 +25,4 @@ export GB_VERSION
 export GB_SLUG
 
 cd googlebackup
-gunicorn -b 0.0.0.0:8000 googlebackup.wsgi:application
+gunicorn -b 0.0.0.0:8000 googlebackup.wsgi:application -k gevent
