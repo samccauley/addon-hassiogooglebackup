@@ -11,7 +11,7 @@ chardet==3.0.4
 colorama==0.4.0
 django==2.2.13
 gevent==1.4.0 --no-binary gevent
-google-api-python-client==1.7.4
+google-api-python-client==1.7.12
 google-auth-httplib2==0.0.3
 google-auth-oauthlib==0.2.0
 google-auth==1.5.1
