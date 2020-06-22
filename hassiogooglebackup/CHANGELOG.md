@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.5] - 2020-06-22
+### Fixed
+- Patched google-api-python-client to 1.9.3
+- Patched google-auth to 1.18.0
+- Patched google-auth-oauthlib to 0.4.1
+
 ## [1.7.4] - 2020-06-10
 ### Fixed
 - Patched google-api-python-client to 1.7.12 per https://github.com/googleapis/google-api-python-client/pull/813 to address redirect error in httplib2.
