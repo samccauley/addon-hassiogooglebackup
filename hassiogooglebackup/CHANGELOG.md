@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.6] - 2020-06-24
+### Fixed
+- Pinned httplib2 to 0.15.0 to avoid breaking change triggered by Google's non-standard way of handing redirects in their chunking logic for large file uploads. When I upgraded httplib2 to 0.18.0 to address vulnerabilities, a problem with redirect 308 codes was introduced. I had hoped that upgrading the Google APIs would fix it, but it does not. So, I'm rolling back httplib2 instead.
+
 ## [1.7.5] - 2020-06-22
 ### Fixed
 - Patched google-api-python-client to 1.9.3
