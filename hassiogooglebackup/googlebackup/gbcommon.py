@@ -273,6 +273,9 @@ def backupFiles(fromPattern, backupDirID, user_agent):
 def purgeOldFiles(fromPattern, preserve):
 
     logging.info("Beginning purge process...")
+    logging.debug("fromPattern = " + fromPattern)
+    logging.debug("preserve = " + str(preserve))
+
     sourceFiles = sorted(glob.glob(fromPattern), key=os.path.getmtime)
     numSourceFiles = len(sourceFiles)
     deletedCount = 0
@@ -290,18 +293,31 @@ def purgeOldFiles(fromPattern, preserve):
 def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
 
     logging.info("Beginning purge Google Drive process...")
+    logging.debug("backupDirID = " + backupDirID)
+    logging.debug("preserve = " + str(preserve))
 
     drive_service = getDriveService(user_agent)
 
     # Search for all files in Google Drive Directory
-    results = drive_service.files().list(
-        q="'" + backupDirID + "' in parents and trashed = false",
-        spaces='drive',
-        orderBy='modifiedTime',
-        fields="files(id, name)").execute()
-    items = results.get('files', [])
+    items = []
+    token = None
+    results = None
+
+    while True:
+        if (results is not None and token is None):
+            break
+        results = drive_service.files().list(
+            q="'" + backupDirID + "' in parents and trashed = false",
+            spaces='drive',
+            orderBy='modifiedTime',
+            pageToken=token,
+            fields="nextPageToken, files(id, name)").execute()
+
+        token = results.get('nextPageToken')
+        items.extend(results.get('files', []))
 
     numSourceFiles = len(items)
+    logging.debug("Found " + str(numSourceFiles) + " files in Google Drive folder.")
     deletedCount = 0
     if numSourceFiles > preserve:
         numToDelete = numSourceFiles - preserve
