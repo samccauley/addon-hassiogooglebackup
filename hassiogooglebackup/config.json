@@ -19,13 +19,15 @@
       "backupDirID" : "Some_Google_Drive_Unique_Opaque_Folder_ID",
       "purge" : {"enabled" : false, "preserve" : 3},
       "purge_google" : {"enabled" : false, "preserve" : 12},
-      "debug" : false},
+      "debug" : false
+    },
     "schema": {
       "fromPattern" : "str",
       "backupDirID" : "str",
       "purge" : {"enabled" : "bool", "preserve" : "int(0,)"},
       "purge_google" : {"enabled" : "bool", "preserve" : "int(0,)"},
-      "debug" : "bool"},
+      "debug" : "bool"
+    },
     "ports": {
       "8000/tcp": 8055
     },
