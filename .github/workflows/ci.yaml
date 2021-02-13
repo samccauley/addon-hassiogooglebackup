@@ -65,11 +65,7 @@ jobs:
     needs:
       - information
       - lint-addon
-      - lint-hadolint
-      - lint-json
-      - lint-markdown
-      - lint-shellcheck
-      - lint-yamllint
+      - super-linter
     runs-on: ubuntu-latest
     strategy:
       matrix:
