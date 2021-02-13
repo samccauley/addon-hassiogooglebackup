@@ -12,7 +12,6 @@
     "startup": "services",
     "webui": "http://[HOST]:[PORT:8000]/gb",
     "hassio_api": true,
-    "boot": "auto",
     "homeassistant_api": true,
     "map": ["config", "ssl", "addons", "backup:rw", "share"],
     "options": {
