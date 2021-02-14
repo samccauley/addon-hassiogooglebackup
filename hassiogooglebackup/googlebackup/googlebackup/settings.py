@@ -109,7 +109,9 @@ DATABASES = {
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
@@ -151,11 +153,12 @@ try:
 except ImportError:
     gb_debug = str(os.environ.get("GB_DEBUG"))
     print("gb_debug = " + gb_debug)
-    if (gb_debug == "true"):
+    if gb_debug == "true":
         print("Setting up debug logging")
         # SECURITY WARNING: don't run with debug turned on in production!
         DEBUG = True
         import logging
+
         logging.basicConfig(level="DEBUG")
         logging.getLogger("googleapiclient.discovery_cache").setLevel(logging.ERROR)
     else:
@@ -163,6 +166,7 @@ except ImportError:
         # SECURITY WARNING: don't run with debug turned on in production!
         DEBUG = False
         import logging
+
         logging.basicConfig(level="INFO")
         logging.getLogger("googleapiclient.discovery_cache").setLevel(logging.ERROR)
     logging.info("No local_settings to import")
