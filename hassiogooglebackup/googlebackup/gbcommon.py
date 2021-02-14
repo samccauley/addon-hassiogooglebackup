@@ -31,16 +31,15 @@ def getOptions():
 
 def getFlowFromClientSecret():
     flow = InstalledAppFlow.from_client_secrets_file(
-        CLIENT_SECRET,
-        scopes=[OAUTH2_SCOPE])
+        CLIENT_SECRET, scopes=[OAUTH2_SCOPE]
+    )
     return flow
 
 
 def getFlowFromClientSecret_Step2(saved_state):
     flow = Flow.from_client_secrets_file(
-        CLIENT_SECRET,
-        scopes=[OAUTH2_SCOPE],
-        state=saved_state)
+        CLIENT_SECRET, scopes=[OAUTH2_SCOPE], state=saved_state
+    )
     return flow
 
 
@@ -59,12 +58,15 @@ def requestAuthorization():
         # re-prompting the user for permission. Recommended for web server apps.
         access_type="offline",
         # Enable incremental authorization. Recommended as a best practice.
-        include_granted_scopes="true")
+        include_granted_scopes="true",
+    )
 
     return authorization_url, state
 
 
-def fetchAndSaveTokens(saved_state, redirect_uri, authorization_response, authorizationCode):
+def fetchAndSaveTokens(
+    saved_state, redirect_uri, authorization_response, authorizationCode
+):
 
     flow = getFlowFromClientSecret_Step2(saved_state)
     # flow.redirect_uri = redirect_uri
@@ -160,7 +162,13 @@ def deleteIfThere(fileName, backupDirID, drive_service):
         deletedCount += 1
         logging.info("Deleted " + file.get("name") + " : " + file.get("id"))
 
-    logging.info("Deleted " + str(deletedCount) + " files named " + shortFileName + " from Google Drive.")
+    logging.info(
+        "Deleted "
+        + str(deletedCount)
+        + " files named "
+        + shortFileName
+        + " from Google Drive."
+    )
 
     return deletedCount
 
@@ -186,7 +194,7 @@ def backupFile(fileName, backupDirID, drive_service, MIMETYPE, TITLE, DESCRIPTIO
         "name": shortFileName,
         "title": TITLE,
         "description": DESCRIPTION,
-        "parents": [backupDirID]
+        "parents": [backupDirID],
     }
 
     new_file = drive_service.files().create(body=body, media_body=media_body).execute()
@@ -201,8 +209,10 @@ def publishResult(result, topic, retain):
         "retain": retain,
     }
     data_json = json.dumps(data)
-    headers = {"Content-type": "application/json",
-                "Authorization": "Bearer " + settings.HA_TOKEN}
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + settings.HA_TOKEN,
+    }
 
     response = requests.post(url, data=data_json, headers=headers)
     logging.debug(pformat(response))
@@ -249,7 +259,7 @@ def adhocBackupFiles(fromPatterns, backupDirID, user_agent):
                 + file
                 + " is empty. This application cannot copy empty (size = 0) files to Google Drive."
             )
-    
+
         matchesFound = deleteIfThere(file, backupDirID, drive_service)
         if matchesFound == 0:
             newCount += 1
@@ -295,7 +305,7 @@ def backupFiles(fromPattern, backupDirID, user_agent):
                 + file
                 + " is empty. This application cannot copy empty (size = 0) files to Google Drive."
             )
-    
+
         if alreadyBackedUp(file, backupDirID, drive_service):
             alreadyCount += 1
         else:
@@ -358,8 +368,8 @@ def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
             drive_service.files()
             .list(
                 q="'" + backupDirID + "' in parents and trashed = false",
-                spaces='drive',
-                orderBy='modifiedTime',
+                spaces="drive",
+                orderBy="modifiedTime",
                 pageToken=token,
                 fields="nextPageToken, files(id, name)",
             )
@@ -382,4 +392,3 @@ def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
     else:
         logging.info("Nothing to purge from Google Drive")
     return deletedCount
-    

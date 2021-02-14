@@ -43,7 +43,12 @@ def authConfirmed(request):
     saved_state = request.session["state"]
     authorizationCode = request.POST.get("authorizationCode")
 
-    fetchAndSaveTokens(saved_state, request.build_absolute_uri(reverse("gb:authConfirmed")), request.build_absolute_uri(), authorizationCode)
+    fetchAndSaveTokens(
+        saved_state,
+        request.build_absolute_uri(reverse("gb:authConfirmed")),
+        request.build_absolute_uri(),
+        authorizationCode,
+    )
 
     return render(request, "gb/authConfirmed.html")
 
@@ -52,7 +57,7 @@ def authConfirmed(request):
 def adhocBackup(request):
 
     logging.debug("adhocBackup request.body: " + str(request.body))
-    
+
     json_request = json.loads(request.body)
     fromPatterns = json_request["fromPatterns"]
     backupDirID = json_request["backupDirID"]
@@ -60,13 +65,15 @@ def adhocBackup(request):
     adhocBackupResult = {}
     status = 200
     try:
-        adhocBackupResult = adhocBackupFiles(fromPatterns, backupDirID, request.build_absolute_uri("/"))
+        adhocBackupResult = adhocBackupFiles(
+            fromPatterns, backupDirID, request.build_absolute_uri("/")
+        )
     except Exception as e:
         logging.error(traceback.format_exc())
         adhocBackupResult = {"errorMessage": str(e)}
         status = 500
 
-    logging.info("googlebackup adhocBackup result: " + str(adhocBackupResult)) 
+    logging.info("googlebackup adhocBackup result: " + str(adhocBackupResult))
 
     try:
         publishAdhocResult(adhocBackupResult)
@@ -89,19 +96,23 @@ def doBackup(request):
     backupResult = {}
     status = 200
     try:
-        backupResult = backupFiles(fromPattern, backupDirID, request.build_absolute_uri("/"))
+        backupResult = backupFiles(
+            fromPattern, backupDirID, request.build_absolute_uri("/")
+        )
         if doPurge:
             deletedCount = purgeOldFiles(fromPattern, preserve)
             backupResult["deletedCount"] = deletedCount
         if doGooglePurge:
-            deletedFromGoogleCount = purgeOldGoogleFiles(backupDirID, preserveInGoogle, request.build_absolute_uri("/"))
+            deletedFromGoogleCount = purgeOldGoogleFiles(
+                backupDirID, preserveInGoogle, request.build_absolute_uri("/")
+            )
             backupResult["deletedFromGoogle"] = deletedFromGoogleCount
     except Exception as e:
         logging.error(traceback.format_exc())
         backupResult = {"errorMessage": str(e)}
         status = 500
 
-    logging.info("googlebackup result: " + str(backupResult)) 
+    logging.info("googlebackup result: " + str(backupResult))
 
     try:
         publishConfiguredResult(backupResult)
