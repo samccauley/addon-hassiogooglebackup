@@ -20,11 +20,13 @@ from gbcommon import (
     purgeOldGoogleFiles,
     publishConfiguredResult,
     adhocBackupFiles,
-    publishAdhocResult
+    publishAdhocResult,
 )
+
 
 def index(request):
     return render(request, "gb/index.html")
+
 
 def getAuth(request):
 
@@ -35,6 +37,7 @@ def getAuth(request):
 
     return HttpResponseRedirect(authorization_url)
 
+
 def authConfirmed(request):
 
     saved_state = request.session["state"]
@@ -43,6 +46,7 @@ def authConfirmed(request):
     fetchAndSaveTokens(saved_state, request.build_absolute_uri(reverse("gb:authConfirmed")), request.build_absolute_uri(), authorizationCode)
 
     return render(request, "gb/authConfirmed.html")
+
 
 @csrf_exempt
 def adhocBackup(request):
@@ -70,6 +74,7 @@ def adhocBackup(request):
         logging.warning(traceback.format_exc())
 
     return JsonResponse(adhocBackupResult, status=status)
+
 
 def doBackup(request):
 

@@ -28,11 +28,13 @@ def getOptions():
         options = json.load(f)
     return options
 
+
 def getFlowFromClientSecret():
     flow = InstalledAppFlow.from_client_secrets_file(
         CLIENT_SECRET,
         scopes=[OAUTH2_SCOPE])
     return flow
+
 
 def getFlowFromClientSecret_Step2(saved_state):
     flow = Flow.from_client_secrets_file(
@@ -40,6 +42,7 @@ def getFlowFromClientSecret_Step2(saved_state):
         scopes=[OAUTH2_SCOPE],
         state=saved_state)
     return flow
+
 
 def requestAuthorization():
 
@@ -60,6 +63,7 @@ def requestAuthorization():
 
     return authorization_url, state
 
+
 def fetchAndSaveTokens(saved_state, redirect_uri, authorization_response, authorizationCode):
 
     flow = getFlowFromClientSecret_Step2(saved_state)
@@ -76,11 +80,12 @@ def fetchAndSaveTokens(saved_state, redirect_uri, authorization_response, author
         "token_uri": credentials.token_uri,
         "client_id": credentials.client_id,
         "client_secret": credentials.client_secret,
-        "scopes": credentials.scopes
+        "scopes": credentials.scopes,
     }
 
     with open(TOKEN, "w") as outfile:
         json.dump(tokens, outfile)
+
 
 def getDriveService(user_agent):
 
@@ -102,10 +107,18 @@ def getDriveService(user_agent):
 
     return drive_service
 
+
 def alreadyBackedUp(fileName, backupDirID, drive_service):
 
     shortFileName = ntpath.basename(fileName)
 
+    # Search for given file in Google Drive Directory
+    items = searchGoogleDrive(drive_service, shortFileName, backupDirID)
+
+    return len(items) > 0
+
+
+def searchGoogleDrive(drive_service, shortFileName, backupDirID):
     # Search for given file in Google Drive Directory
     results = (
         drive_service.files()
@@ -121,8 +134,8 @@ def alreadyBackedUp(fileName, backupDirID, drive_service):
         .execute()
     )
     items = results.get("files", [])
+    return items
 
-    return len(items) > 0
 
 def deleteIfThere(fileName, backupDirID, drive_service):
 
@@ -131,20 +144,7 @@ def deleteIfThere(fileName, backupDirID, drive_service):
     logging.debug("Will delete " + shortFileName + " if it is already in Google Drive.")
 
     # Search for given file in Google Drive Directory
-    results = (
-        drive_service.files()
-        .list(
-            q="name='"
-            + shortFileName
-            + "' and '"
-            + backupDirID
-            + "' in parents and trashed = false",
-            spaces="drive",
-            fields="files(id, name)",
-        )
-        .execute()
-    )
-    items = results.get("files", [])
+    items = searchGoogleDrive(drive_service, shortFileName, backupDirID)
 
     logging.debug(
         "Found "
@@ -163,6 +163,7 @@ def deleteIfThere(fileName, backupDirID, drive_service):
     logging.info("Deleted " + str(deletedCount) + " files named " + shortFileName + " from Google Drive.")
 
     return deletedCount
+
 
 def backupFile(fileName, backupDirID, drive_service, MIMETYPE, TITLE, DESCRIPTION):
 
@@ -191,6 +192,7 @@ def backupFile(fileName, backupDirID, drive_service, MIMETYPE, TITLE, DESCRIPTIO
     new_file = drive_service.files().create(body=body, media_body=media_body).execute()
     logging.debug(pformat(new_file))
 
+
 def publishResult(result, topic, retain):
     url = settings.HA_MQTT_PUBLISH_URL
     data = {
@@ -205,15 +207,18 @@ def publishResult(result, topic, retain):
     response = requests.post(url, data=data_json, headers=headers)
     logging.debug(pformat(response))
 
+
 def publishConfiguredResult(result):
     topic = settings.HA_MQTT_RESULT_TOPIC
     retain = settings.HA_MQTT_RESULT_RETAIN
     publishResult(result, topic, retain)
 
+
 def publishAdhocResult(result):
     topic = settings.HA_MQTT_ADHOC_RESULT_TOPIC
     retain = settings.HA_MQTT_ADHOC_RESULT_RETAIN
     publishResult(result, topic, retain)
+
 
 def adhocBackupFiles(fromPatterns, backupDirID, user_agent):
     logging.debug("Adhoc backup fromPatterns: " + str(fromPatterns))
@@ -267,6 +272,7 @@ def adhocBackupFiles(fromPatterns, backupDirID, user_agent):
     }
     return result
 
+
 def backupFiles(fromPattern, backupDirID, user_agent):
 
     logging.debug("backup fromPattern: " + fromPattern)
@@ -310,6 +316,7 @@ def backupFiles(fromPattern, backupDirID, user_agent):
     }
     return result
 
+
 def purgeOldFiles(fromPattern, preserve):
 
     logging.info("Beginning purge process...")
@@ -329,6 +336,7 @@ def purgeOldFiles(fromPattern, preserve):
     else:
         logging.info("Nothing to purge")
     return deletedCount
+
 
 def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
 
@@ -374,3 +382,4 @@ def purgeOldGoogleFiles(backupDirID, preserve, user_agent):
     else:
         logging.info("Nothing to purge from Google Drive")
     return deletedCount
+    
