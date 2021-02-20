@@ -1,23 +1,22 @@
+import json
 import logging
 import traceback
-import json
 
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from gbcommon import (
-    getOptions,
-    requestAuthorization,
-    fetchAndSaveTokens,
+    adhocBackupFiles,
     backupFiles,
+    fetchAndSaveTokens,
+    getOptions,
+    publishAdhocResult,
+    publishConfiguredResult,
     purgeOldFiles,
     purgeOldGoogleFiles,
-    publishConfiguredResult,
-    adhocBackupFiles,
-    publishAdhocResult,
+    requestAuthorization,
 )
 
 
