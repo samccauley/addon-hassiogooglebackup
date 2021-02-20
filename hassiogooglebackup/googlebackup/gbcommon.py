@@ -1,20 +1,19 @@
+import datetime
+import glob
+import json
+import logging
+import mimetypes
+import ntpath
+import os
+from pprint import pformat
+
 import googleapiclient.http
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google_auth_oauthlib.flow import Flow
-from oauth2client.client import GoogleCredentials
+import requests
+from django.conf import settings
+from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 from googleapiclient.discovery import build
 from httplib2 import Http
-import logging
-import requests
-
-from django.conf import settings
-import os
-import json
-import glob
-import ntpath
-from pprint import pformat
-import datetime
-import mimetypes
+from oauth2client.client import GoogleCredentials
 
 OAUTH2_SCOPE = "https://www.googleapis.com/auth/drive.file"
 

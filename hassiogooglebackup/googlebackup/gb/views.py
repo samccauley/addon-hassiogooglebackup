@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-
 from gbcommon import (
     adhocBackupFiles,
     backupFiles,
