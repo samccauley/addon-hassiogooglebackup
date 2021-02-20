@@ -1,18 +1,15 @@
-from django.http import HttpResponse
+import logging
+import traceback
+import json
+
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import logging
-import traceback
-import json
-
-
 from gbcommon import (
     getOptions,
-    backupFile,
     requestAuthorization,
     fetchAndSaveTokens,
     backupFiles,
@@ -77,7 +74,7 @@ def adhocBackup(request):
 
     try:
         publishAdhocResult(adhocBackupResult)
-    except Exception as e:
+    except Exception:
         logging.warning(traceback.format_exc())
 
     return JsonResponse(adhocBackupResult, status=status)
@@ -116,7 +113,7 @@ def doBackup(request):
 
     try:
         publishConfiguredResult(backupResult)
-    except Exception as e:
+    except Exception:
         logging.warning(traceback.format_exc())
 
     return JsonResponse(backupResult, status=status)

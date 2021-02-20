@@ -112,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
 
 
@@ -149,8 +149,9 @@ STATIC_URL = "/static/"
 # should be ignored by version control so that it doesn't end up in the code
 # that gets built into the production container image.
 try:
-    from .local_settings import *
+    from .local_settings import *  # noqa: E402,F403,F401
 except ImportError:
+    # GB_DEBUG is set in run.sh based on "debug" setting in options.json
     gb_debug = str(os.environ.get("GB_DEBUG"))
     print("gb_debug = " + gb_debug)
     if gb_debug == "true":
