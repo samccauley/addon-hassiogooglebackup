@@ -59,7 +59,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MARKDOWN_CONFIG_FILE: markdownlint.json
+          MARKDOWN_CONFIG_FILE: .markdownlint.json
           PYTHON_FLAKE8_CONFIG_FILE: .flake8
           VALIDATE_DOCKERFILE: false
 
