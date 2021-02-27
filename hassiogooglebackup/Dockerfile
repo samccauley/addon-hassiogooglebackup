@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     py3-gevent=1.5.0-r1 \
   && python3 -m ensurepip \
   && rm -r /usr/local/lib/python*/ensurepip \
-  && pip3 install --no-cache-dir --upgrade pip==20.3.4 setuptools==51.3.3-r0 \
+  && pip3 install --no-cache-dir --upgrade pip==20.3.4 setuptools==51.3.3 \
   && ln -sf pip3 /usr/local/bin/pip \
   && ln -sf /usr/local/bin/python3 /usr/local/bin/python \
   && python --version \
