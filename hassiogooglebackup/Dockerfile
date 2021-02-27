@@ -19,6 +19,7 @@ RUN apk add --no-cache \
 
 COPY googlebackup /googlebackup
 
+# hadolint ignore=DL3003
 RUN pip install --no-cache-dir -r googlebackup/requirements.txt \
   && cd googlebackup \
   && python manage.py migrate
