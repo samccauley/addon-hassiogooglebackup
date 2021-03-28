@@ -9,7 +9,7 @@ cachetools==2.1.0
 certifi==2018.8.24
 chardet==3.0.4
 colorama==0.4.0
-django==2.2.13
+django==2.2.18
 gevent==1.4.0 --no-binary gevent
 google-api-python-client==1.9.3
 google-auth-httplib2==0.0.3
