@@ -196,8 +196,4 @@ jobs:
               "name": "${{ needs.information.outputs.name }}",
               "repository": "${{ github.repository }}",
               "version": "${{ github.event.release.tag_name }}"
-<<<<<<< HEAD
             }
-=======
-            }
->>>>>>> add_CI
