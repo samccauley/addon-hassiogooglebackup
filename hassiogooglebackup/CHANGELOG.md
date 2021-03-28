@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- General code clean up and some build automation
+- General code clean up and some build automation code.
 
 ## [1.7.7] - 2020-08-19
 
