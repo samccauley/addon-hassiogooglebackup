@@ -338,4 +338,4 @@ Here is an example Home Assistant Sensor configuration that monitors for these e
     json_attributes_topic: "googlebackup/adhocresult"
 ```
 
-[logo]: /googlebackup/logo.png
+[logo]: https://github.com/samccauley/addon-hassiogooglebackup/raw/master/googlebackup/logo.png
