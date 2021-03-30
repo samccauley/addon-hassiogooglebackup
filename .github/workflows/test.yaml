@@ -10,10 +10,12 @@ jobs:
     name: ℹ️ Gather needed information
     runs-on: ubuntu-latest
     outputs:
-      python-base-dir: ${{ $(dirname $(find ./ -mindepth 2 -maxdepth 2 -name "manage.py" -printf '%P\n')) }}
+      python-base-dir:
+        description: 'Python base directory in project'
+        value: "X"
     steps:
       - name: Dummy Step
-        run: echo "Hello"
+        run: ${{ $(dirname $(find ./ -mindepth 2 -maxdepth 2 -name "manage.py" -printf '%P\n')) }}
   build:
     name: Build
     needs: information
