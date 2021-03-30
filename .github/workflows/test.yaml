@@ -12,10 +12,9 @@ jobs:
     outputs:
       python-base-dir:
         description: 'Python base directory in project'
-        value: "X"
     steps:
-      - name: Dummy Step
-        run: ${{ $(dirname $(find ./ -mindepth 2 -maxdepth 2 -name "manage.py" -printf '%P\n')) }}
+      - name: Set Python Base Dir
+        run: echo "::set-output name=python-base-dir::$(dirname $(find ./ -mindepth 2 -maxdepth 2 -name 'manage.py' -printf '%P\n'))"
   build:
     name: Build
     needs: information
