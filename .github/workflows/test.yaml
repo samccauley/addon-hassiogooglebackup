@@ -1,0 +1,20 @@
+---
+name: Test
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    needs:
+      - information
+      - lint-addon
+      - super-linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v2.3.4
+      - name: ℹ️ Examine Dir
+        run: ls googlebackup/googlebackup
