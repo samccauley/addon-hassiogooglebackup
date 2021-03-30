@@ -6,17 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  information:
+    name: ℹ️ Gather needed information
+    runs-on: ubuntu-latest
+    outputs:
+      python-base-dir: ${{ $(dirname $(find ./ -mindepth 2 -maxdepth 2 -name "manage.py" -printf '%P\n')) }}
   build:
     name: Build
+    needs: information
     runs-on: ubuntu-latest
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2.3.4
+      - name: Show Python Base Dir 1
+        run: echo "$(dirname $(find ./ -mindepth 2 -maxdepth 2 -name "manage.py" -printf '%P\n'))"
+      - name: Show Python Base Dir 2
+        run: echo ${{ needs.information.outputs.python-base-dir }}
       - name: ℹ️ Examine Dir
         run: ls googlebackup/googlebackup
-      - name: ℹ️ Add secret
+      - name: ℹ️ Add Google client_secret.json
         run: echo ${{ secrets.GOOGLE_CLIENT_SECRET }} > googlebackup/googlebackup/client_secret.json
       - name: ℹ️ Examine Dir Again
         run: ls googlebackup/googlebackup
       - name: ℹ️ Examine File
-      
+        run: cat googlebackup/googlebackup/client_secret.json
