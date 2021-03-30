@@ -15,7 +15,10 @@ jobs:
       - name: ℹ️ Examine Dir
         run: ls googlebackup/googlebackup
       - name: ℹ️ Add Google client_secret.json
-        run: printf ${{ secrets.GHCR_USERNAME }} > googlebackup/googlebackup/client_secret.json
+        run: 'printf "$CLIENT_SECRET" > googlebackup/googlebackup/client_secret.json'
+        shell: bash
+        env:
+          CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       - name: ℹ️ Examine Dir Again
         run: ls googlebackup/googlebackup
       - name: ℹ️ Examine File
