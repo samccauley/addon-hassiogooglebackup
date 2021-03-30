@@ -8,10 +8,6 @@ on:
 jobs:
   build:
     name: Build
-    needs:
-      - information
-      - lint-addon
-      - super-linter
     runs-on: ubuntu-latest
     steps:
       - name: ⤵️ Check out code from GitHub
