@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       python-base-dir: ${{ $(dirname $(find ./ -mindepth 2 -maxdepth 2 -name "manage.py" -printf '%P\n')) }}
+    steps:
+      - name: Dummy Step
+      - run: echo "Hello"
   build:
     name: Build
     needs: information
