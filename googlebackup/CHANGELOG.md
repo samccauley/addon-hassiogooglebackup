@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.7.8] - 2021-03-30
+## [1.7.8] - 2021-03-31
 
 ### Fixed
 
 - General code clean up and some build automation code.
+- Patched httplib2 from 0.15.0 to 0.19.0
+- Patched rsa from 4.0 to 4.1
 
 ## [1.7.7] - 2020-08-19
 
