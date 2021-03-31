@@ -29,6 +29,7 @@ def getAuth(request):
 
     # Save the value returned for state
     request.session["state"] = state
+    logging.debug("State saved into session: " + state)
 
     return HttpResponseRedirect(authorization_url)
 
@@ -36,7 +37,9 @@ def getAuth(request):
 def authConfirmed(request):
 
     saved_state = request.session["state"]
+    logging.debug("State retrieved from session: " + saved_state)
     authorizationCode = request.POST.get("authorizationCode")
+    logging.debug("Authorization code submitted for ingestion: " + authorizationCode)
 
     fetchAndSaveTokens(
         saved_state,
