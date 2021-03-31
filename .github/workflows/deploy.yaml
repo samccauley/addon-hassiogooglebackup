@@ -52,9 +52,12 @@ jobs:
               environment="beta"
             fi
           fi
+
+          echo "environment=${environment}"
+          echo "version=${version}"
           echo "::set-output name=environment::${environment}"
           echo "::set-output name=version::${version}"
-          
+
   deploy:
     name: 👷 Build & Deploy ${{ matrix.architecture }}
     needs: information
