@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Updated several libraries and their dependencies to newer versions to address security vulnerabilities.
+- Updated several libraries and their dependencies to newer versions
+to address security vulnerabilities.
 
 ## [1.7.9] - 2021-04-05
 
