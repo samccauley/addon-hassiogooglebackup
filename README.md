@@ -2,6 +2,9 @@
 
 ![Logo][logo]
 
+## End of Support
+I no longer have a Home Assistant environment, and am not in a position to support this add-on anymore. I appologize for the inconvenience. I'm really not sure how to "drop support" of something like this. The code is available for anyone to take it, if they want. I think I remember seeing that there's another add-on similar to mine that may even be better.
+
 ## Overview
 
 This add-on will upload files from your hassio backup folder (typically .tar
